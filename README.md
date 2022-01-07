@@ -1,7 +1,7 @@
 ```
-python main_pyg.py --dataset $DATASET --gnn $GNN_TYPE --filename $FILENAME
+python train.py --dataset $DATASET --gnn $GNN_TYPE --filename $FILENAME
 
-python main_pyg.py --dataset ogbg-molhiv --gnn gcn --filename output
+python train.py --dataset ogbg-molhiv --gnn gcn --filename gcn.pt
 ```
 
 # ogbg-mol
