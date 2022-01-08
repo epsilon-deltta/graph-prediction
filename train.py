@@ -86,13 +86,16 @@ def main():
                         help='full feature or simple feature')
     parser.add_argument('--filename', type=str, default="",
                         help='filename to output result (default: )')
+    
+    parser.add_argument('--test', type=str, default=None,
+                        help='simply testing to check the feedfoward/backpro.')
     args = parser.parse_args()
 
     device = torch.device("cuda:" + str(args.device)) if torch.cuda.is_available() else torch.device("cpu")
-
+    
     ### automatic dataloading and splitting
     dataset = PygGraphPropPredDataset(name = args.dataset)
-
+    
     if args.feature == 'full':
         pass 
     elif args.feature == 'simple':
@@ -105,9 +108,13 @@ def main():
 
     ### automatic evaluator. takes dataset name as input
     evaluator = Evaluator(args.dataset)
-
-    train_loader = DataLoader(dataset[split_idx["train"]][:64], batch_size=args.batch_size, shuffle=True, num_workers = args.num_workers)
-    valid_loader = DataLoader(dataset[split_idx["valid"]][:64], batch_size=args.batch_size, shuffle=False, num_workers = args.num_workers)
+    
+    if args.test is not None:
+        train_loader = DataLoader(dataset[split_idx["train"]][:64], batch_size=args.batch_size, shuffle=True, num_workers = args.num_workers)
+        valid_loader = DataLoader(dataset[split_idx["valid"]][:64], batch_size=args.batch_size, shuffle=False, num_workers = args.num_workers)
+    else:
+        train_loader = DataLoader(dataset[split_idx["train"]], batch_size=args.batch_size, shuffle=True, num_workers = args.num_workers)
+        valid_loader = DataLoader(dataset[split_idx["valid"]], batch_size=args.batch_size, shuffle=False, num_workers = args.num_workers)
     # test_loader = DataLoader(dataset[split_idx["test"]], batch_size=args.batch_size, shuffle=False, num_workers = args.num_workers)
 
     from model import model_selector
@@ -164,9 +171,10 @@ def main():
     print('Best validation score: {}'.format(best_val))
     # print('Test score: {}'.format(test_curve[best_val_epoch]))
 
-    best_model = best_model.to('cpu')
     
     # save model
+    
+    best_model = best_model.to('cpu')
     import os
     if not args.filename == '':
         file_path = args.filename
