@@ -194,8 +194,8 @@ def main():
         file_name = args.gnn + '_' + str(best_val_epoch) + '.pt'
         file_path = os.path.join(model_dir, file_name)
 
-    torch.save(best_model.state_dict(),file_path)
-
+    torch.save({'weight':best_model.state_dict(),'param':md_params},file_path)
+    
         # torch.save({'Val': valid_curve[best_val_epoch], 
                     # 'Test': test_curve[best_val_epoch], 
                     # 'Train': train_curve[best_val_epoch], 'BestTrain': best_train,'model':best_model}, args.filename)
