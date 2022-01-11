@@ -75,6 +75,9 @@ def main():
                         help='dimensionality of hidden units in GNNs (default: 300)')
     parser.add_argument('--batch_size', type=int, default=32,
                         help='input batch size for training (default: 32)')
+    
+    parser.add_argument('--patience', type=str, default=7,
+                        help='number of patience')
     parser.add_argument('--epochs', type=int, default=100,
                         help='number of epochs to train (default: 100)')
     parser.add_argument('--num_workers', type=int, default=0,
@@ -127,6 +130,7 @@ def main():
     test_curve = []
     train_curve = []
     
+    i = 0
     for epoch in range(1, args.epochs + 1):
         print("=====Epoch {}".format(epoch))
         print('Training...')
@@ -148,6 +152,11 @@ def main():
                 if max(valid_curve) < valid_perf[dataset.eval_metric]:
                     best_model = model
                     ## best_model = copy.deepcopy(model)
+                    i = 0
+                else:
+                    i += 1
+                    if i == args.patience:
+                        break
             else:
                 if min(valid_curve) > valid_perf[dataset.eval_metric]:
                     best_model = copy.deepcopy(model)
