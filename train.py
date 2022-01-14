@@ -35,7 +35,7 @@ def train(model, device, loader, optimizer, task_type):
             loss.backward()
             optimizer.step()
 
-def eval(model, device, loader, evaluator):
+def evaluate(model, device, loader, evaluator):
     model.eval()
     y_true = []
     y_pred = []
@@ -137,9 +137,9 @@ def main():
         train(model, device, train_loader, optimizer, dataset.task_type)
 
         print('Evaluating...')
-        train_perf = eval(model, device, train_loader, evaluator)
-        valid_perf = eval(model, device, valid_loader, evaluator)
-        # test_perf = eval(model, device, test_loader, evaluator)
+        train_perf = evaluate(model, device, train_loader, evaluator)
+        valid_perf = evaluate(model, device, valid_loader, evaluator)
+        # test_perf = evaluate(model, device, test_loader, evaluator)
 
         print({'Train': train_perf, 'Validation': valid_perf}) # , 'Test': test_perf})
 
