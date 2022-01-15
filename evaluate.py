@@ -38,9 +38,16 @@ from model import model_selector
 model = model_selector(**md_weight_param['param']).to(device)
 model.load_state_dict(md_weight_param['weight'])
 
-# test_perf = eval(model, device, test_loader, evaluator)
-
+# $$$$$$ evaluation $$$$$ 
 from train import evaluate
 test_perf = evaluate(model, device, test_loader, evaluator)
 
+
+# show and save the result as a file
+
+import os
 print(test_perf)
+fname = os.path.splitext(args.filename)[0]
+with open(f'{fname}.txt','w') as f:
+    f.write(str(test_perf))
+    print(f'the result is saved in {fname}.txt ')
