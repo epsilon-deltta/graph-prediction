@@ -2,6 +2,8 @@
 python train.py --dataset $DATASET --gnn $GNN_TYPE --filename $FILENAME
 
 python train.py --dataset ogbg-molhiv --gnn gcn --filename gcn.pt
+python evaluate.py --dataset ogbg-molhiv --filename ./models/gcn_2.pt
+python predict.py --model_file ./models/gcn_2.pt --data_file ~.txt?
 ```
 
 # ogbg-mol
