@@ -1,3 +1,13 @@
+# Graph (multi-dimention edge, node) Classification Task on HIV dataset
+
+## Table of Contents 
+
+- Usage and Option
+- Dataset
+- Model types
+- Evaluation
+
+## Usage
 ```
 python train.py --dataset $DATASET --gnn $GNN_TYPE --filename $FILENAME
 
@@ -5,6 +15,8 @@ python train.py --dataset ogbg-molhiv --gnn gcn --filename gcn.pt
 python evaluate.py --dataset ogbg-molhiv --filename ./models/gcn_2.pt
 python predict.py --model_file ./models/gcn_2.pt --data_file ~.txt?
 ```
+
+
 
 # ogbg-mol
 
@@ -21,28 +33,20 @@ python main_pyg.py --dataset $DATASET --gnn $GNN_TYPE --filename $FILENAME
 ### `$DATASET`
 `$DATASET` specified the name of the molecule dataset. It should be one of the followings:
 - `ogbg-molhiv`
-- `ogbg-molpcba`
 
-Additionally we provide the smaller molecule datasets from MoleculeNet [1].
-- `ogbg-molbace`
-- `ogbg-molbbbp`
-- `ogbg-molclintox`
-- `ogbg-molmuv`
-- `ogbg-molsider`
-- `ogbg-moltox21`
-- `ogbg-moltoxcast`
-- `ogbg-molesol`
-- `ogbg-molfreesolv`
-- `ogbg-mollipo`
-
-The last three datasets (`ogbg-molesol`, `ogbg-molfreesolv`, `ogbg-mollipo`) are for regression, and the rest are for binary classification.
 
 ### `$GNN_TYPE`
 `$GNN_TYPE` specified the GNN architecture. It should be one of the followings:
 - `gin`: GIN [2]
 - `gin-virtual`: GIN over graphs augmented with virtual nodes\* [4]
+
 - `gcn`: GCN [3]
-- `gin-virtual`: GCN over graphs augmented with virtual nodes\* [4]
+- `gcn-virtual`: GCN over graphs augmented with virtual nodes\* [4]
+
+- `gcn-pyg`
+- `gat-pyg`
+- `transformerconv`
+    
 
 \* Additional nodes that are connected to all the nodes in the original graphs.
 
