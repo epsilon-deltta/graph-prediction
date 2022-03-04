@@ -5,29 +5,16 @@
 - Usage and Option
 - Dataset
 - Model types
-- Evaluation
+- Experiment results
 
-## Usage
+## Usage 
 ```
-python train.py --dataset $DATASET --gnn $GNN_TYPE --filename $FILENAME
+# 
+python train.py --gnn gcn 
+(python train.py --dataset $DATASET --gnn $GNN_TYPE --filename $FILENAME)
 
-python train.py --dataset ogbg-molhiv --gnn gcn --filename gcn.pt
-python evaluate.py --dataset ogbg-molhiv --filename ./models/gcn_2.pt
-python predict.py --model_file ./models/gcn_2.pt --data_file ~.txt?
-```
-
-
-
-# ogbg-mol
-
-This repository includes the scripts for GNN baselines for `ogbg-mol*` dataset.
-
-## Training & Evaluation
-
-```
-# Run with default config.
-# $DATASET, $GNN_TYPE, and $FILENAME are described below.
-python main_pyg.py --dataset $DATASET --gnn $GNN_TYPE --filename $FILENAME
+python evaluate.py --filename ./models/gcn_2.pt
+(python evaluate.py --dataset ogbg-molhiv --filename ./models/gcn_2.pt)
 ```
 
 ### `$DATASET`
@@ -50,17 +37,53 @@ python main_pyg.py --dataset $DATASET --gnn $GNN_TYPE --filename $FILENAME
 
 \* Additional nodes that are connected to all the nodes in the original graphs.
 
-### `$FILENAME`: Specifying output files. 
+### `$FILENAME`: Specifying output file. 
 `$FILENAME` specifies the filename to save the result. The result is a dictionary containing (1) best training performance (`'BestTrain'`), (2) best validation performance (`'Val'`), (3) test performance at the best validation epoch (`'Test'`), and (4) training performance at the best validation epoch (`'Train'`).
 
-## Converting SMILES string into OGB graph object
-Molecules are typically represented as [SMILES strings](https://en.wikipedia.org/wiki/Simplified_molecular-input_line-entry_system).
-OGB package provides the utility to transform the SMILES string into a graph object that is fully compatible with the OGB molecule datasets. This can be used when one wants to perform transfer learning from external molecular datasets.
 
-```python
-from ogb.utils import smiles2graph
-graph = smiles2graph('O1C=C[C@H]([C@H]1O2)c3c2cc(OC)c4c3OC(=O)C5=C4CCC(=O)5')
+
+## Dataset 
+
+- ogbg-molhiv
+
+(in moduleNet[1])
+``` 
+The HIV dataset was introduced by the Drug
+Therapeutics Program (DTP) AIDS Antiviral Screen, which
+tested the ability to inhibit HIV replication for over 40 000
+compounds.47 Screening results were evaluated and placed into
+three categories: conrmed inactive (CI), conrmed active (CA)
+and conrmed moderately active (CM). We further combine the
+latter two labels, making it a classication task between inactive
+(CI) and active (CA and CM). As we are more interested in
+discover new categories of HIV inhibitors, scaffold splitting
+(introduce
 ```
+
+## model types
+
+- '-pyg'
+It handles one-dimension edge features.
+e.g., GCNConv(in torch geometric) handles only one dimension edge (as a edge weights).
+To solve the multi-dimension problem, we have to use multi-parallel-model,
+
+![](./assets/multi-gcn.png)
+
+- w/o 'pyg'
+It handles multi-dimension edge features.
+
+## Experiment results
+
+| model           | rocauc |
+|-----------------|--------|
+| gat-pyg         | 75.87  |
+| gatv2           | 74.49  |
+| gcn             | 74.09  |
+| gcn-pyg         | 74.45  |
+| gin             | 71.08  |
+| TAG-pyg         | 72.71  |
+| transformerconv | 72.42  |
+
 
 ## References
 [1] Wu, Z., Ramsundar, B., Feinberg, E. N., Gomes, J., Geniesse, C., Pappu, A. S., ... & Pande, V. (2018). MoleculeNet: a benchmark for molecular machine learning. Chemical science, 9(2), 513-530.
