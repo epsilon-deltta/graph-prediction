@@ -13,6 +13,8 @@ parser.add_argument('--dataset', type=str, default="ogbg-molhiv",
                         help='dataset name (default: ogbg-molhiv)')
 parser.add_argument('--filename', type=str, default="",
                         help='')
+parser.add_argument('--data_dir', type=str, default="result",
+                        help='')
 args = parser.parse_args()
 
 
@@ -46,8 +48,10 @@ test_perf = evaluate(model, device, test_loader, evaluator)
 # show and save the result as a file
 
 import os
-print(test_perf)
+print(test_perf)  
 fname = os.path.splitext(args.filename)[0]
-with open(f'{fname}.txt','w') as f:
+fname = os.path.basename(fname)
+fpath = os.path.join(args.data_dir, fname)
+with open(f'{fpath}.txt','w') as f:
     f.write(str(test_perf))
-    print(f'the result is saved in {fname}.txt ')
+    print(f'the result is saved in {fpath}.txt ')
