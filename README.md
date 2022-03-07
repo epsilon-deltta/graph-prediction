@@ -25,14 +25,16 @@ python evaluate.py --filename ./models/gcn_2.pt
 ### `$GNN_TYPE`
 `$GNN_TYPE` specified the GNN architecture. It should be one of the followings:
 - `gin`: GIN [2]
-- `gin-virtual`: GIN over graphs augmented with virtual nodes\* [4]
+- ~~`gin-virtual`: GIN over graphs augmented with virtual nodes\* [4] (doesn't work)~~ 
 
 - `gcn`: GCN [3]
-- `gcn-virtual`: GCN over graphs augmented with virtual nodes\* [4]
+- ~~`gcn-virtual`: GCN over graphs augmented with virtual nodes\* [4] (doesn't work)~~
 
 - `gcn-pyg`
-- `gat-pyg`
-- `transformerconv`
+- `gat`[5]
+- `gatv2` [6]
+- `transformerconv` [7]
+- `tag-pyg` [8]
     
 
 \* Additional nodes that are connected to all the nodes in the original graphs.
@@ -76,7 +78,7 @@ It handles multi-dimension edge features.
 
 | model           | rocauc |
 |-----------------|--------|
-| gat-pyg         | 75.87  |
+| gat             | 75.87  |
 | gatv2           | 74.49  |
 | gcn             | 74.09  |
 | gcn-pyg         | 74.45  |
@@ -93,3 +95,12 @@ It handles multi-dimension edge features.
 [3] Kipf, T. N., & Welling, M. (2017). Semi-supervised classification with graph convolutional networks. ICLR 2017
 
 [4] Gilmer, J., Schoenholz, S. S., Riley, P. F., Vinyals, O., & Dahl, G. E. Neural message passing for quantum chemistry. ICML 2017.
+
+[5] Veličković, Petar, et al. "Graph Attention Networks." International Conference on Learning Representations. 2018.
+
+[6] Brody, Shaked, Uri Alon, and Eran Yahav. "How attentive are graph attention networks?." arXiv preprint arXiv:2105.14491 (2021).
+
+[7] Shi, Yunsheng, et al. "Masked label prediction: Unified message passing model for semi-supervised classification." arXiv preprint arXiv:2009.03509 (2020).
+
+[8] Du, Jian, et al. "Topology adaptive graph convolutional networks." arXiv preprint arXiv:1710.10370 (2017).
+
