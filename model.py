@@ -463,7 +463,7 @@ def model_selector(**args):
         model = GATv2(num_layer = args['num_layer'], emb_dim = args['emb_dim'], drop_ratio = args['drop_ratio'])
     elif args['gnn'] == 'transformerconv':
         model = TransformerConv(num_layer = args['num_layer'], emb_dim = args['emb_dim'], drop_ratio = args['drop_ratio'])
-    elif args['gnn'] == 'tag_pyg':
+    elif args['gnn'] == 'tag-pyg':
         model = TAG_pyg(num_layer = args['num_layer'], emb_dim = args['emb_dim'], drop_ratio = args['drop_ratio'])
     else:
         raise ValueError('Invalid GNN type')

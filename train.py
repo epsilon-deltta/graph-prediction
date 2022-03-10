@@ -106,7 +106,9 @@ def main():
         # only retain the top two node/edge features
         dataset.data.x = dataset.data.x[:,:2]
         dataset.data.edge_attr = dataset.data.edge_attr[:,:2]
-
+    if args.gnn == 'gcn-virtual':
+        args.batch_size = 12
+    
     split_idx = dataset.get_idx_split()
 
     ### automatic evaluator. takes dataset name as input
